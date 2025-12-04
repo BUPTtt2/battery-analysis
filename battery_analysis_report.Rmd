@@ -1,3 +1,4 @@
+
 ---
 title: "电动汽车电池需求预测与材料循环分析报告"
 author: "数据分析项目"
@@ -6,10 +7,10 @@ output:
   html_document:
     toc: true
     toc_depth: 3
-    toc_float: true
     theme: flatly
     highlight: tango
-    code_folding: show
+    self_contained: true  # 确保所有资源打包在单个文件中
+    css: style.css  # 可选：添加自定义样式
 ---
 
 ```{r setup, include=FALSE}
@@ -71,6 +72,21 @@ kable(methods_table, caption = "分析方法总结")
 
 # 数据预处理
 
+# 在数据读取部分前添加
+# 判断运行环境
+if (Sys.getenv("GITHUB_ACTIONS") == "true") {
+  # GitHub Actions 环境
+  data_dir <- "data/"
+} else {
+  # 本地环境
+  data_dir <- "./"
+}
+
+# 修改数据读取函数
+read_battery_data <- function() {
+  ev_sales <- read_csv(paste0(data_dir, "EV_Volumes_sales_per_year4.csv"))
+  # ... 其他文件类似
+}
 ```{r data-loading}
 # 数据读取函数
 read_battery_data <- function() {
@@ -548,5 +564,6 @@ kable(scenario_summary, caption = "2030年不同情景下的需求预测 (GWh)")
 
 ---
 **报告生成时间**: `r format(Sys.time(), '%Y年%m月%d日 %H:%M')`
+
 
 *本报告仅供参考，不构成投资建议*
